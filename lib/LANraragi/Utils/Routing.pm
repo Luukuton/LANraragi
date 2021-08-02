@@ -93,7 +93,7 @@ sub apply_routes {
     $public_api->get('/api/archives/:id/thumbnail')->to('api-archive#serve_thumbnail');
     $public_api->get('/api/archives/:id/download')->to('api-archive#serve_file');
     $public_api->get('/api/archives/:id/page')->to('api-archive#serve_page');
-    $public_api->post('/api/archives/:id/extract')->to('api-archive#extract_archive');
+    $public_api->post('/api/archives/:id/extract')->to('api-archive#get_archive_files');
     $public_api->put('/api/archives/:id/progress/:page')->to('api-archive#update_progress');
     $public_api->delete('/api/archives/:id/isnew')->to('api-archive#clear_new');
     $public_api->get('/api/archives/:id')->to('api-archive#serve_metadata');

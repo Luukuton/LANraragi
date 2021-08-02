@@ -48,12 +48,15 @@ sub resize_image {
     undef $img;
 }
 
-#build_reader_JSON(mojo,id,forceReload,refreshThumbnail)
-#Opens the archive specified by its ID, and returns a json containing the page names.
+# build_reader_JSON(mojo,id,forceReload,refreshThumbnail)
+# Opens the archive specified by its ID, and returns a json containing the page names.
 sub build_reader_JSON {
 
     my ( $self, $id, $force, $thumbreload ) = @_;
     my $tempdir = get_temp();
+
+    # Queue a full extract job into Minion. 
+    # This'll fill in the missing pages (or regen everything if force = 1)
 
     #Redis stuff: Grab archive path and update some things
     my $redis    = LANraragi::Model::Config->get_redis;
@@ -77,9 +80,9 @@ sub build_reader_JSON {
         remove_tree($path);
     }
 
-    #Now, has our file been extracted to the temporary directory recently?
-    #If it hasn't, we call libarchive to do it.
-    #If the file hasn't been extracted, or if force-reload =1
+    # Now, has our file been extracted to the temporary directory recently?
+    # If it hasn't, we call libarchive to do it.
+    # If the file hasn't been extracted, or if force-reload =1
     unless ( -e $path ) {
 
         my $outpath = "";
@@ -96,8 +99,8 @@ sub build_reader_JSON {
 
     }
 
-    #Find the extracted images with a full search (subdirectories included),
-    #treat them and jam them into an array.
+    # Find the extracted images with a full search (subdirectories included),
+    # treat them and jam them into an array.
     my @images;
     eval {
         find(

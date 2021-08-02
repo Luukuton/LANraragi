@@ -256,6 +256,16 @@ sub add_tasks {
             );
         }
     );
+
+    $minion->add_task(
+        extract_archive => sub {
+            my ( $job, @args ) = @_;
+            my ( $id, $force ) = @args;
+
+            my $thumbname = extract_thumbnail( $thumbdir, $id );
+            $job->finish($thumbname);
+        }
+    );
 }
 
 1;
